@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+Use App\Models\Blog;
+Use App\Models\User;
 return new class extends Migration
 {
     /**
@@ -13,8 +14,8 @@ return new class extends Migration
     {
          Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(\App\Models\Blog::class);
-            $table->foreignId(\App\Models\User::class);
+            $table->foreignId('blog_id');
+            $table->foreignId('user_id');
             $table->text('body');
             $table->timestamps();
         });

@@ -1,9 +1,10 @@
 <?php
 
 namespace Database\Factories;
-
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\Blog;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
  */
@@ -17,7 +18,10 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+             'blog_id' => Blog::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
+
+            'body' => fake()->paragraphs(3, true),
         ];
     }
 }
