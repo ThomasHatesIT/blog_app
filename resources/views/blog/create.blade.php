@@ -10,7 +10,7 @@
     <div class="max-w-3xl mx-auto">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-3xl font-bold text-gray-800">Create New Post</h1>
-            <a href="{{ url('/blog') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 active:bg-gray-400 focus:outline-none focus:border-gray-400 focus:ring focus:ring-gray-200 transition">
+            <a href="{{ route('blogs.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 active:bg-gray-400 focus:outline-none focus:border-gray-400 focus:ring focus:ring-gray-200 transition">
                 <i class="fas fa-arrow-left mr-2"></i> Back to Posts
             </a>
         </div>
@@ -37,7 +37,7 @@
                     </div>
                 @endif
 
-                <form action="{{ url('/blog') }}" method="POST" enctype="multipart/form-data">
+                <form action="/blogs" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     <div class="mb-6">
@@ -60,10 +60,10 @@
                     </div>
                     
                     <div class="mb-6">
-                        <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                        <textarea name="content" id="content" rows="12" 
+                        <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
+                        <textarea name="body" id="body" rows="12" 
                             class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required>{{ old('content') }}</textarea>
+                            required>{{ old('body') }}</textarea>
                     </div>
                     
                     <div class="mb-6">
@@ -104,19 +104,5 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
-<script>
-    // Initialize markdown editor
-    const easyMDE = new EasyMDE({
-        element: document.getElementById('content'),
-        spellChecker: false,
-        autosave: {
-            enabled: true,
-            delay: 1000,
-            uniqueId: 'blog-post-content'
-        },
-        placeholder: 'Type your content here...',
-        toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'preview', 'guide']
-    });
-</script>
+
 @endsection

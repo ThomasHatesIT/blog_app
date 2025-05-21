@@ -8,7 +8,7 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-gray-800">Blog Posts</h1>
 
-                    <a href="{{ url('/blog/create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 active:bg-indigo-700 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 transition">
+                    <a href="/blogs/create" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 active:bg-indigo-700 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 transition">
                         <i class="fas fa-plus mr-2"></i> New Post
                     </a>
               
@@ -68,7 +68,7 @@
                         <ul class="space-y-3">
                             @foreach($recentPosts as $recentPost)
                                 <li>
-                                    <a href="{{ url('/blog/' . $recentPost->id) }}" class="text-indigo-600 hover:text-indigo-500 hover:underline flex items-start">
+                                    <a href="{{ url('/blogs/' . $recentPost->id) }}" class="text-indigo-600 hover:text-indigo-500 hover:underline flex items-start">
                                         <i class="fas fa-file-alt mt-1 mr-2 text-gray-400"></i>
                                         <span>{{ $recentPost->title }}</span>
                                     </a>
