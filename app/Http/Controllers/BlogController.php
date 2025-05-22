@@ -50,6 +50,26 @@ public function store(Request $request)
     return redirect('/blogs');
 }
 
+    public function edit($id){
+    $post = Blog::findOrFail($id);
 
+    return view('blog.edit', [
+        'post' => $post,
+    ]);
+    }
+
+    public function update(Request $request, $id){
+
+       $validated = $request->validate([
+        'title' => ['required', 'string', 'min:3'],
+        'category' => ['required', 'string'],
+        'body' => ['required', 'string'],
+    ]);
+
+    $post = Blog::findOrFail($id);
+    $post->update($validated);
+
+        return redirect("/blogs/{$post->id}");
+    }
 
 }

@@ -4,105 +4,322 @@
 
 @section('styles')
 <link href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" rel="stylesheet">
+<style>
+    .form-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+    
+    .form-card {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    .form-input {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid #e5e7eb;
+        background: rgba(255, 255, 255, 0.8);
+    }
+    
+    .form-input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        background: rgba(255, 255, 255, 1);
+        transform: translateY(-1px);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+        display: block;
+        font-size: 0.875rem;
+        letter-spacing: 0.025em;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        border: none;
+        box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px 0 rgba(99, 102, 241, 0.5);
+    }
+    
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .btn-secondary:hover {
+        background: rgba(249, 250, 251, 1);
+        border-color: #d1d5db;
+        transform: translateY(-1px);
+    }
+    
+    .error-container {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border-left: 4px solid #ef4444;
+        animation: slideInDown 0.3s ease-out;
+    }
+    
+    @keyframes slideInDown {
+        from {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    .file-input-container {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        border: 2px dashed #d1d5db;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        width: 100%;
+    }
+    
+    .file-input-container:hover {
+        border-color: #6366f1;
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    }
+    
+    .file-input {
+        position: absolute;
+        left: -9999px;
+    }
+    
+    .header-section {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .header-title {
+        background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 2.25rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+    }
+    
+    .section-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+        margin: 2rem 0;
+    }
+    
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: rgba(249, 250, 251, 0.8);
+        border-radius: 0.75rem;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+    }
+    
+    .checkbox-container:hover {
+        background: rgba(243, 244, 246, 1);
+    }
+    
+    .category-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 1rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 3rem;
+    }
+</style>
 @endsection
 
 @section('content')
-    <div class="max-w-3xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Create New Post</h1>
-            <a href="{{ route('blogs.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 active:bg-gray-400 focus:outline-none focus:border-gray-400 focus:ring focus:ring-gray-200 transition">
-                <i class="fas fa-arrow-left mr-2"></i> Back to Posts
-            </a>
-        </div>
+    <div class="form-container">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="header-section">
+                <div class="flex items-center justify-between">
+                    <h1 class="header-title">Create New Post</h1>
+                    <a href="{{ route('blogs.index') }}" class="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl font-semibold text-sm text-gray-700 hover:bg-white/30 transition-all duration-300 group">
+                        <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i> 
+                        Back to Posts
+                    </a>
+                </div>
+            </div>
 
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="p-6">
-                @if ($errors->any())
-                    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-exclamation-circle text-red-400"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">
-                                    Please fix the following errors:
-                                </h3>
-                                <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
+            <div class="form-card rounded-2xl overflow-hidden">
+                <div class="p-8">
+                    @if ($errors->any())
+                        <div class="error-container rounded-xl p-6 mb-8">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-triangle text-red-500 text-lg"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg font-semibold text-red-800 mb-2">
+                                        Please fix the following errors:
+                                    </h3>
+                                    <ul class="text-sm text-red-700 space-y-1">
+                                        @foreach ($errors->all() as $error)
+                                            <li class="flex items-center">
+                                                <i class="fas fa-circle text-xs mr-2"></i>
+                                                {{ $error }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
 
-                <form action="/blogs" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    
-                    <div class="mb-6">
-                        <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Post Title</label>
-                        <input type="text" name="title" id="title" value="{{ old('title') }}" 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required autofocus>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                        <select name="category" id="category" 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Select a category</option>
-                            <option value="technology" {{ old('category') == 'technology' ? 'selected' : '' }}>Technology</option>
-                            <option value="design" {{ old('category') == 'design' ? 'selected' : '' }}>Design</option>
-                            <option value="development" {{ old('category') == 'development' ? 'selected' : '' }}>Development</option>
-                            <option value="news" {{ old('category') == 'news' ? 'selected' : '' }}>News</option>
-                        </select>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
-                        <textarea name="body" id="body" rows="12" 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required>{{ old('body') }}</textarea>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">Featured Image (Optional)</label>
-                        <div class="mt-1 flex items-center">
-                            <span class="inline-block h-12 w-12 rounded-md overflow-hidden bg-gray-100">
-                                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            </span>
-                            <input type="file" name="featured_image" id="featured_image" 
-                                class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
-                        <div class="flex items-center">
-                            <input type="checkbox" name="published" id="published" 
-                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" {{ old('published') ? 'checked' : '' }}>
-                            <label for="published" class="ml-2 block text-sm text-gray-900">
-                                Publish immediately
-                            </label>
+                    <form action="/blogs" method="POST" enctype="multipart/form-data" class="space-y-8">
+                        @csrf
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div class="lg:col-span-2">
+                                <label for="title" class="form-label">Post Title</label>
+                                <input type="text" name="title" id="title" value="{{ old('title') }}" 
+                                    class="form-input w-full rounded-xl px-4 py-3 text-lg"
+                                    placeholder="Enter an engaging title for your post..."
+                                    required autofocus>
+                            </div>
+                            
+                            <div>
+                                <label for="category" class="form-label">Category</label>
+                                <select name="category" id="category" 
+                                    class="form-input category-select w-full rounded-xl px-4 py-3">
+                                    <option value="">Select a category</option>
+                                    <option value="technology" {{ old('category') == 'technology' ? 'selected' : '' }}>
+                                        <i class="fas fa-laptop-code"></i> Technology
+                                    </option>
+                                    <option value="design" {{ old('category') == 'design' ? 'selected' : '' }}>
+                                        <i class="fas fa-palette"></i> Design
+                                    </option>
+                                    <option value="development" {{ old('category') == 'development' ? 'selected' : '' }}>
+                                        <i class="fas fa-code"></i> Development
+                                    </option>
+                                    <option value="news" {{ old('category') == 'news' ? 'selected' : '' }}>
+                                        <i class="fas fa-newspaper"></i> News
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            <div class="lg:col-span-2">
+                                <label for="body" class="form-label">Post Content</label>
+                                <textarea name="body" id="body" rows="12" 
+                                    class="form-input w-full rounded-xl px-4 py-3 resize-none"
+                                    placeholder="Write your amazing content here..."
+                                    required>{{ old('body') }}</textarea>
+                            </div>
+                            
+                            <div class="lg:col-span-2">
+                                <label class="form-label">Featured Image (Optional)</label>
+                                <div class="file-input-container">
+                                    <input type="file" name="featured_image" id="featured_image" class="file-input" accept="image/*">
+                                    <div class="text-center">
+                                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                                        <p class="text-lg font-semibold text-gray-700 mb-2">
+                                            Drop your image here or click to browse
+                                        </p>
+                                        <p class="text-sm text-gray-500">
+                                            PNG, JPG, GIF up to 10MB
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="flex space-x-3">
-                            <button type="button" onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 transition">
-                                Cancel
-                            </button>
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring focus:ring-indigo-300 transition">
-                                Create Post
-                            </button>
+                        <div class="section-divider"></div>
+                        
+                        <div class="flex items-center justify-between pt-4">
+                            <div class="checkbox-container">
+                                <input type="checkbox" name="published" id="published" 
+                                    class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded transition-all duration-200" 
+                                    {{ old('published') ? 'checked' : '' }}>
+                                <label for="published" class="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
+                                    <i class="fas fa-rocket mr-2 text-indigo-500"></i>
+                                    Publish immediately
+                                </label>
+                            </div>
+                            
+                            <div class="flex space-x-4">
+                                <button type="button" onclick="window.history.back()" 
+                                    class="btn-secondary inline-flex items-center px-6 py-3 rounded-xl font-semibold text-sm text-gray-700 uppercase tracking-wider">
+                                    <i class="fas fa-times mr-2"></i>
+                                    Cancel
+                                </button>
+                                <button type="submit" 
+                                    class="btn-primary inline-flex items-center px-8 py-3 rounded-xl font-semibold text-sm text-white uppercase tracking-wider">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Create Post
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
-
+<script>
+    // Enhanced file input functionality
+    document.getElementById('featured_image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const container = document.querySelector('.file-input-container');
+        
+        if (file) {
+            const fileName = file.name;
+            const fileSize = (file.size / 1024 / 1024).toFixed(2);
+            
+            container.innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+                    <p class="text-lg font-semibold text-gray-700 mb-2">
+                        ${fileName}
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        ${fileSize} MB
+                    </p>
+                </div>
+            `;
+            container.style.borderColor = '#10b981';
+            container.style.background = 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)';
+        }
+    });
+    
+    // Add smooth focus transitions
+    document.querySelectorAll('.form-input').forEach(input => {
+        input.addEventListener('focus', function() {
+            this.style.transform = 'translateY(-1px)';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+</script>
 @endsection
