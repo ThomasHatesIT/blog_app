@@ -21,7 +21,7 @@ class CommentFactory extends Factory
              'blog_id' => Blog::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,
 
-            'body' => fake()->paragraphs(3, true),
+            'body' => fake()->realText(40), 
         ];
     }
 }
