@@ -50,23 +50,23 @@
             </a>
 
            
-                    <div class="flex space-x-3">
-                        {{-- Edit Button --}}
-                        <a href="/blogs/{{ $post->id }}/edit"
-                            class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 transition">
-                           <i class="fas fa-edit mr-2"></i> Edit Post
-                        </a>
+                 <div class="flex space-x-3">
+    {{-- Edit Button --}}
+    <a href="{{ route('blogs.edit', $post->id) }}"
+        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 transition">
+       <i class="fas fa-edit mr-2"></i> Edit Post
+    </a>
 
-                        {{-- Delete Button --}}
-                        <form action="" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this post? This action cannot be undone.')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 transition">
-                               <i class="fas fa-trash-alt mr-2"></i> Delete Post
-                            </button>
-                        </form>
-                    </div>
+    {{-- Delete Button --}}
+    <form action="{{ route('blogs.destroy', $post->id) }}" method="POST" id="deleteForm">
+        @csrf
+        @method('DELETE')
+        <button type="button" onclick="confirmDelete()"
+            class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 transition">
+           <i class="fas fa-trash-alt mr-2"></i> Delete Post
+        </button>
+    </form>
+</div>
              
         </div>
     </div>
@@ -101,27 +101,33 @@
 
 @section('scripts')
 <script>
-    // Enhanced delete confirmation with modal (optional)
+    function confirmDelete() {
+        if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+            document.getElementById('deleteForm').submit();
+        }
+    }
+    
+    // Or if you prefer to use the modal version:
     document.addEventListener('DOMContentLoaded', function() {
-        const deleteForm = document.querySelector('form[onsubmit*="confirm"]');
+        const deleteForm = document.getElementById('deleteForm');
         const deleteModal = document.getElementById('deleteModal');
-        const confirmDelete = document.getElementById('confirmDelete');
-        const cancelDelete = document.getElementById('cancelDelete');
+        const confirmDeleteBtn = document.getElementById('confirmDelete');
+        const cancelDeleteBtn = document.getElementById('cancelDelete');
 
         if (deleteForm && deleteModal) {
-            // Remove the default onsubmit and handle with modal instead
-            deleteForm.removeAttribute('onsubmit');
+            const deleteButtons = document.querySelectorAll('[data-delete-trigger]');
             
-            deleteForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                deleteModal.classList.remove('hidden');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    deleteModal.classList.remove('hidden');
+                });
             });
 
-            confirmDelete.addEventListener('click', function() {
+            confirmDeleteBtn.addEventListener('click', function() {
                 deleteForm.submit();
             });
 
-            cancelDelete.addEventListener('click', function() {
+            cancelDeleteBtn.addEventListener('click', function() {
                 deleteModal.classList.add('hidden');
             });
 

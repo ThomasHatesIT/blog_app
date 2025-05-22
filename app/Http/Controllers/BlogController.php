@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 class BlogController extends Controller
 {
 public function index()
@@ -69,7 +70,23 @@ public function store(Request $request)
     $post = Blog::findOrFail($id);
     $post->update($validated);
 
+
+
+    
         return redirect("/blogs/{$post->id}");
     }
+
+
+
+    public function destroy($id){
+
+      $post = Blog::findOrFail($id);
+        $post->delete();
+
+        return redirect('/blogs');
+    }
+
+
+
 
 }
