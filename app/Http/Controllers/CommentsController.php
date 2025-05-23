@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Blog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 class CommentsController extends Controller
@@ -14,7 +15,7 @@ class CommentsController extends Controller
         ]);
 
         Comment::create([
-            'user_id' => 1, // make sure user is logged in
+            'user_id' => Auth::id(), // make sure user is logged in
             'blog_id' => $request->blog_id,
             'body' => $request->body,
         ]);
@@ -38,6 +39,15 @@ class CommentsController extends Controller
 
     return redirect()->back()->with('success', 'Comment updated.');
 }
+ public function destroy($id)
+{
+
+        $comment = Comment::findOrFail($id);
+        $postID = $comment->blog_id;
+        $comment->delete();
+
+        return redirect("/blogs/{$postID}");
 
 
+}
 }

@@ -51,19 +51,27 @@
 
             <div class="flex space-x-3">
                 {{-- Edit Button --}}
+                @can('edit', $post)
+                    
+                
                 <a href="{{ route('blogs.edit', $post->id) }}"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 transition">
                    <i class="fas fa-edit mr-2"></i> Edit Post
                 </a>
-
+                @endcan
                 {{-- Delete Button --}}
+       
+                    
+            
                 <form action="{{ route('blogs.destroy', $post->id) }}" method="POST" id="deleteForm">
+                             @can('edit', $post)
                     @csrf
                     @method('DELETE')
                     <button type="button" onclick="confirmDelete()"
                         class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 transition">
                        <i class="fas fa-trash-alt mr-2"></i> Delete Post
                     </button>
+                        @endcan
                 </form>
             </div>
         </div>
@@ -128,21 +136,30 @@
                                     </div>
 
                                     {{-- Comment Actions (removed auth requirements) --}}
+                               
+ 
                                     <div class="flex space-x-2">
+                                                
+                                             @can('edit', $comment)
                                         <button onclick="editComment({{ $comment->id }})" 
                                             class="text-blue-600 hover:text-blue-800 text-sm">
+                                       
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <form action="" method="POST" class="inline">
+                                            @endcan
+                                        <form action="{{ route('comment.destroy', $comment->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
+                                             @can('edit', $comment)
                                             <button type="submit" 
                                                 onclick="return confirm('Are you sure you want to delete this comment?')"
                                                 class="text-red-600 hover:text-red-800 text-sm">
                                                 <i class="fas fa-trash"></i>
                                             </button>
+                                                    @endcan
                                         </form>
                                     </div>
+                                         
                                 </div>
 
                                 {{-- Comment Content --}}

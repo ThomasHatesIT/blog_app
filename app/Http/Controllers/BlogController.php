@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Comment;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 class BlogController extends Controller
@@ -53,18 +54,25 @@ public function store(Request $request)
         'body' => ['required'], // usually 'body' is text, not numeric
     ]);
 
-    Blog::create($validated + ['user_id' => 1]);
+    Blog::create($validated +  ['user_id' => Auth::id()]);
 
     return redirect('/blogs');
 }
 
-    public function edit($id){
-    $post = Blog::findOrFail($id);
+ public function edit(Blog $blog)
+{
+    if (Auth::user()->cannot('edit', $blog)) {
+    abort(403, 'Unauthorized'); // Correct usage
+    }
+
+   
 
     return view('blog.edit', [
-        'post' => $post,
+        'post' => $blog,
+   
     ]);
-    }
+}
+
 
     public function update(Request $request, $id){
 
